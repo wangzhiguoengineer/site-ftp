@@ -1,7 +1,11 @@
 # Instructions
 - 上传项目文件到FTP站点
 - Upload project file to FTP site
-# default options
+## NPM
+```sh
+npm install site-ftp --save-dev
+```
+## default options
 ```json
 {
     "host": "localhost",
@@ -14,7 +18,7 @@
     "rm": true
 }
 ```
-# ts options
+## ts options
 ```typescript
 declare const EasyFtp: any;
 declare const ftp: any;
