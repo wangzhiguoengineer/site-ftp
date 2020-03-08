@@ -2,14 +2,6 @@
 - 上传项目文件到FTP站点
 - Upload project file to FTP site
 # default options
-- `host`: 'localhost',
-- `port`: 21,
-- `username`: 'anonymous',
-- `password`: 'anonymous@',
-- `type`: 'ftp',
-- `from`: ['dist/**'],
-- `to`: '/public_html/',
-- `rm`: true
 ```json
 {
     "host": "localhost",
