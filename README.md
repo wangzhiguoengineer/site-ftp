@@ -1,9 +1,35 @@
 # Instructions
 - 上传项目文件到FTP站点
 - Upload project file to FTP site
-## NPM
+## Install
 ```sh
 npm install site-ftp --save-dev
+```
+- create a file `ftp.js`
+```javascript
+require('site-ftp').connect({
+    "host": "localhost",
+    "port": 21,
+    "username": "anonymous",
+    "password": "anonymous@",
+    "type": "ftp",
+    "from": ["dist/**"],
+    "to": "/public_html/",
+    "rm": true
+});
+```
+- run node
+```sh
+node ftp.js
+```
+- console `√ Finished!`
+```log
+i {"host":"","port":21,"username":"","password":"","type":"ftp","from":["dist/**","src"],"to":"/public_html/","rm":true}
+i Connecting...
+i Deleting the ftp folder`/public_html/`
+i Successfully deleted the ftp folder`/public_html/`
+i Uploading...
+√ Finished!
 ```
 ## Default Options
 ```json
@@ -20,22 +46,6 @@ npm install site-ftp --save-dev
 ```
 ## TypeScript Options
 ```typescript
-declare const EasyFtp: any;
-declare const ftp: any;
-declare const OraSpinner: any;
-interface EasyFTP {
-    connect: Function;
-    rm: Function;
-    upload: Function;
-    close: Function;
-}
-interface EasyFtpOptions {
-    host?: string;
-    port?: number;
-    username?: string;
-    password?: string;
-    type?: string;
-}
 interface SiteFtpOptions {
     host?: string;
     port?: number;
@@ -46,12 +56,7 @@ interface SiteFtpOptions {
     to?: string;
     rm?: boolean | string;
 }
-declare class SiteFtp {
-    private config;
-    private ftp;
-    private spinner;
-    constructor(options?: SiteFtp);
-    run(): void;
-    private rm;
-}
+declare const SiteFtp: {
+    connect: (options: SiteFtpOptions) => void;
+};
 ```
