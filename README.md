@@ -5,7 +5,7 @@
 ```sh
 npm install site-ftp --save-dev
 ```
-## default options
+## Default Options
 ```json
 {
     "host": "localhost",
@@ -18,7 +18,7 @@ npm install site-ftp --save-dev
     "rm": true
 }
 ```
-## ts options
+## TypeScript Options
 ```typescript
 declare const EasyFtp: any;
 declare const ftp: any;
