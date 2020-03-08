@@ -1,0 +1,39 @@
+{
+  "name": "site-ftp",
+  "version": "1.0.0",
+  "description": "Upload resources to server.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "taobao-registry": "npm config set registry http://registry.npm.taobao.org",
+    "public-registry": "npm config set registry https://registry.npmjs.org",
+    "release": "npm run build && npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:wangzhiguoengineer/site-ftp.git"
+  },
+  "keywords": [
+    "site-ftp",
+    "site",
+    "ftp",
+    "node-ftp",
+    "easy-ftp"
+  ],
+  "author": "WangZhiGuo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wangzhiguoengineer/site-ftp/issues"
+  },
+  "homepage": "https://github.com/wangzhiguoengineer/site-ftp#readme",
+  "dependencies": {
+    "easy-ftp": "^0.4.1",
+    "ora": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.3"
+  }
+}
