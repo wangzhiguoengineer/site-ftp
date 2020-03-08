@@ -1,7 +1,7 @@
 {
   "name": "site-ftp",
-  "version": "1.0.0",
-  "description": "Upload resources to server.",
+  "version": "1.0.1",
+  "description": "Upload project file to FTP site.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
