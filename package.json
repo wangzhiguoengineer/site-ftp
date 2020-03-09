@@ -1,8 +1,8 @@
 {
-  "name": "site-ftp",
-  "version": "1.1.0",
-  "description": "Upload project file to FTP site.",
-  "type": "commonjs",
+  "name": "from-to-ftp",
+  "version": "1.2.0",
+  "description": "Upload project file to FTP site. 上传项目文件到FTP站点。",
+  "type": "UMD",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -11,6 +11,7 @@
     "public-registry": "npm config set registry https://registry.npmjs.org",
     "release": "npm run public-registry && npm run build && npm publish --access public && npm run taobao-registry"
   },
+  "bin": "bin/bin.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:wangzhiguoengineer/site-ftp.git"
@@ -22,18 +23,19 @@
     "node-ftp",
     "easy-ftp"
   ],
-  "author": "WangZhiGuo",
+  "author": "wangzhiguo.engineer@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wangzhiguoengineer/site-ftp/issues"
   },
   "homepage": "https://github.com/wangzhiguoengineer/site-ftp#readme",
   "dependencies": {
+    "commander": "^4.1.1",
     "easy-ftp": "^0.4.1",
-    "ora": "^4.0.3"
+    "ora": "^4.0.3",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "@types/node": "^13.9.0",
-    "typescript": "^3.8.3"
+    "@types/node": "^13.9.0"
   }
 }

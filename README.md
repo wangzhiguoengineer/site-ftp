@@ -27,7 +27,7 @@ node ftp.js
 i {"host":"","port":21,"username":"","password":"","type":"ftp","from":["dist/**","src"],"to":"/public_html/","rm":true}
 i Connecting...
 i Deleting the ftp folder`/public_html/`
-i Successfully deleted the ftp folder`/public_html/`
+√ Successfully deleted the ftp folder`/public_html/`
 i Uploading...
 √ Finished!
 ```

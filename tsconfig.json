@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "UMD",
     "lib": [
       "es2017",
       "es7",
       "es6",
       "dom"
     ],
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "allowJs": true,
     "declaration": true,
     "outDir": "dist",

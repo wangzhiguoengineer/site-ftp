@@ -1,59 +1,37 @@
-const { EasyFTP: EasyFTP, Spinner: Spinner } = require("./lib/common");
+export namespace SiteFtp {
+    const EasyFtp = require('easy-ftp');
+    const EasyFTP: EasyFTP = new EasyFtp();
+    const Spinner = require("ora")();
 
-interface EasyFtpOptions {
-    host?: string;
-    port?: number;
-    username?: string;
-    password?: string;
-    type?: string | 'ftp' | 'sftp';
-}
-
-interface SiteFtpOptions {
-    host?: string;
-    port?: number;
-    username?: string;
-    password?: string;
-    type?: string;
-    from?: Array<string>;
-    to?: string;
-    rm?: boolean | string;
-}
-
-const SiteFtp = {
-    connect: function (options: SiteFtpOptions) {
-        Spinner.start();
-        if (options !== null && typeof options === "object") {
-            privateMember['config'] = Object.assign(privateMember['config'], options);
-        }
-        Spinner.info(JSON.stringify(options));
-        Spinner.info('Connecting...');
-        EasyFTP.connect(<EasyFtpOptions>{
-            host: privateMember['config']["host"],
-            port: privateMember['config']["port"],
-            username: privateMember['config']["username"],
-            password: privateMember['config']["password"],
-            type: privateMember['config']["type"],
-        });
-        privateMember["rm"]().then(() => {
-            Spinner.info('Uploading...');
-            EasyFTP.upload(privateMember['config']["from"], privateMember['config']["to"], (upload_err) => {
-                if (upload_err) {
-                    Spinner.fail(upload_err);
-                } else {
-                    Spinner.succeed('Finished!');
-                }
-                Spinner.stop();
-                EasyFTP.close();
-            });
-        }).catch((rm_err) => {
-            Spinner.fail(rm_err);
-            Spinner.stop();
-            EasyFTP.close();
-        });
+    interface EasyFTP {
+        connect: Function;
+        rm: Function;
+        upload: Function;
+        close: Function;
+        exist: Function;
     }
-};
-const privateMember = {
-    config: <SiteFtpOptions>{
+
+    interface SiteFtpOptions {
+        host?: string;
+        port?: number;
+        username?: string;
+        password?: string;
+        type?: string;
+        from?: Array<string>;
+        to?: string;
+        rm?: boolean | string;
+    }
+
+    interface EasyFtpOptions {
+        host?: string;
+        port?: number;
+        username?: string;
+        password?: string;
+        type?: string | 'ftp' | 'sftp';
+    }
+
+
+    let defaultConfig: SiteFtpOptions = {
         host: 'localhost',
         port: 21,
         username: 'anonymous',
@@ -62,11 +40,24 @@ const privateMember = {
         from: ['dist/**'],
         to: '/public_html/',
         rm: true
-    },
-    rm: function () {
+    };
+
+    function exist(dir: string) {
         return new Promise((resolve, reject) => {
-            if (privateMember['config']["rm"]) {
-                const dir = typeof privateMember['config']["rm"] === "string" ? privateMember['config']["rm"] : privateMember['config']["to"];
+            EasyFTP.exist(dir, (exist: boolean) => {
+                if (exist) {
+                    resolve(exist);
+                } else {
+                    reject(exist);
+                }
+            });
+        });
+    }
+
+    function rm() {
+        return new Promise((resolve, reject) => {
+            if (defaultConfig["rm"]) {
+                const dir = <string>(typeof defaultConfig["rm"] === "string" ? defaultConfig["rm"] : defaultConfig["to"]);
                 if (!dir) {
                     Spinner.fail('`rm` or `to` configuration error!');
                     Spinner.stop();
@@ -74,25 +65,59 @@ const privateMember = {
                     reject();
                     return;
                 }
-                Spinner.info('Deleting the ftp folder`' + dir + '`');
-                EasyFTP.rm(dir, (rm_err) => {
-                    if (rm_err) {
-                        Spinner.fail(rm_err);
-                        Spinner.stop();
-                        EasyFTP.close();
-                        reject(rm_err);
-                    } else {
-                        Spinner.info('Successfully deleted the ftp folder`' + dir + '`');
-                        resolve();
-                    }
+                exist(dir).then(() => {
+                    Spinner.info('Deleting the ftp folder`' + dir + '`');
+                    EasyFTP.rm(dir, (rm_err: string) => {
+                        if (rm_err) {
+                            Spinner.fail('fail:' + rm_err);
+                            Spinner.stop();
+                            EasyFTP.close();
+                            reject(rm_err);
+                        } else {
+                            Spinner.succeed('Successfully deleted the ftp folder`' + dir + '`');
+                            resolve();
+                        }
+                    });
+                }, () => {
+                    Spinner.warn('Directory not found, skipping delete directory:' + dir);
+                    resolve();
                 });
             } else {
-                Spinner.info('Skip deleting the ftp folder');
+                Spinner.succeed('Skip deleting the ftp folder');
                 resolve();
             }
         });
     }
-};
 
-module.exports.SiteFtp = SiteFtp;
-module.exports = SiteFtp;
+    export function connect(options: SiteFtpOptions) {
+        Spinner.start();
+        if (options !== null && typeof options === "object") {
+            defaultConfig = Object.assign(defaultConfig, options);
+        }
+        Spinner.info(JSON.stringify(options));
+        Spinner.info('Connecting...');
+        EasyFTP.connect(<EasyFtpOptions>{
+            host: defaultConfig["host"],
+            port: defaultConfig["port"],
+            username: defaultConfig["username"],
+            password: defaultConfig["password"],
+            type: defaultConfig["type"],
+        });
+        rm().then(() => {
+            Spinner.info('Uploading...');
+            EasyFTP.upload(defaultConfig["from"], defaultConfig["to"], (upload_err: string) => {
+                if (upload_err) {
+                    Spinner.fail(upload_err);
+                } else {
+                    Spinner.succeed('Finished!');
+                }
+                Spinner.stop();
+                EasyFTP.close();
+            });
+        }, (rm_err) => {
+            Spinner.fail(rm_err);
+            Spinner.stop();
+            EasyFTP.close();
+        });
+    }
+}
