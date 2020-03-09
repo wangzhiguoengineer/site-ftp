@@ -47,17 +47,18 @@ i Uploading...
 ```
 ## TypeScript Options
 ```typescript
-interface SiteFtpOptions {
-    host?: string;
-    port?: number;
-    username?: string;
-    password?: string;
-    type?: string;
-    from?: Array<string>;
-    to?: string;
-    rm?: boolean | string;
+export declare namespace SiteFtp {
+    interface SiteFtpOptions {
+        host?: string;
+        port?: number;
+        username?: string;
+        password?: string;
+        type?: string;
+        from?: Array<string>;
+        to?: string;
+        rm?: boolean | string;
+    }
+    export function connect(options: SiteFtpOptions): void;
+    export {};
 }
-declare const SiteFtp: {
-    connect: (options: SiteFtpOptions) => void;
-};
 ```

@@ -1,6 +1,6 @@
 {
   "name": "from-to-ftp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Upload project file to FTP site. 上传项目文件到FTP站点。",
   "type": "UMD",
   "main": "dist/index.js",
