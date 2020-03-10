@@ -7,7 +7,7 @@ npm install site-ftp --save-dev
 ```
 - create a file `ftp.js`
 ```javascript
-const { SiteFtp } = require('from-to-ftp');
+const { SiteFtp } = require('site-ftp');
 SiteFtp.connect({
     "host": "localhost",
     "port": 21,
